@@ -1,0 +1,212 @@
+{
+  "APP": {
+    "TITLE": "Liteyfy",
+    "SUBTITLE": "Alertes Transport & Météo en Temps Réel",
+    "DESCRIPTION": "Restez informé des retards de train et des alertes météo en temps réel"
+  },
+  "NAV": {
+    "DASHBOARD": "Tableau de bord",
+    "NOTIFICATIONS": "Notifications",
+    "SUBSCRIPTIONS": "Mes Abonnements",
+    "LIVE_STATUS": "État en Direct",
+    "SETTINGS": "Paramètres"
+  },
+  "DASHBOARD": {
+    "TITLE": "Bienvenue sur Liteyfy",
+    "SUBTITLE": "Restez informé des retards de train et des alertes météo en temps réel",
+    "ENABLE_NOTIFICATIONS": {
+      "TITLE": "Activer les Notifications Push",
+      "SUBTITLE": "Recevez des alertes en temps réel sur votre transport et la météo",
+      "DESCRIPTION": "Pour recevoir des notifications en temps réel sur les retards de train, les annulations et les alertes météo, vous devez activer les notifications push dans votre navigateur.",
+      "PERMISSION_STATUS": "État de l'autorisation",
+      "BUTTON": "Activer les Notifications",
+      "BUTTON_LOADING": "Activation..."
+    },
+    "STATS": {
+      "SUBSCRIPTIONS": "Abonnements Actifs",
+      "NOTIFICATIONS": "Notifications Non Lues",
+      "PUSH_STATUS": "Notifications Push",
+      "ACTIVE": "Actif",
+      "INACTIVE": "Inactif",
+      "MANAGE": "Gérer",
+      "VIEW_ALL": "Voir Tout",
+      "TEST": "Tester"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Actions Rapides",
+      "TRAIN_LINES": "Lignes de Train",
+      "WEATHER_ALERTS": "Alertes Météo",
+      "STIB_LINES": "Lignes STIB",
+      "LIVE_STATUS": "État en Direct",
+      "SUBSCRIBED": "abonné(s)",
+      "REGIONS": "régions",
+      "REAL_TIME": "Mises à jour en temps réel"
+    },
+    "ABOUT": {
+      "TITLE": "À propos de Liteyfy",
+      "DESCRIPTION": "Liteyfy fournit des notifications en temps réel pour :",
+      "TRAIN_DELAYS": "Retards SNCB",
+      "STIB_DISRUPTIONS": "Perturbations STIB",
+      "WEATHER_ALERTS": "Alertes Météo",
+      "STATION_UPDATES": "Mises à jour des Gares",
+      "FOOTER": "Toutes les notifications fonctionnent hors ligne et sont synchronisées lorsque vous êtes de nouveau en ligne. Vos préférences sont stockées localement et sauvegardées dans le cloud."
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "UNREAD": "notification non lue",
+    "UNREAD_PLURAL": "notifications non lues",
+    "MARK_ALL_READ": "Tout Marquer comme Lu",
+    "CLEAR_OLD": "Effacer les Anciennes Notifications",
+    "EMPTY": {
+      "TITLE": "Pas encore de notifications",
+      "SUBTITLE": "Vous verrez vos notifications ici quand elles arriveront"
+    },
+    "VIEW_DETAILS": "Voir les Détails",
+    "DISMISS": "Ignorer",
+    "TIME": {
+      "JUST_NOW": "À l'instant",
+      "MINUTES_AGO": "m",
+      "HOURS_AGO": "h",
+      "DAYS_AGO": "j"
+    }
+  },
+  "SUBSCRIPTIONS": {
+    "TITLE": "Gérer les Abonnements",
+    "SUBTITLE": "Choisissez les notifications que vous souhaitez recevoir",
+    "TRAINS": {
+      "TITLE": "Lignes de Train",
+      "SUBTITLE": "Gérez vos abonnements aux lignes de train et les préférences de notification",
+      "YOUR_LINES": "Vos Lignes de Train",
+      "POPULAR_LINES": "Lignes Populaires",
+      "ENABLE": "Notifications Activées",
+      "NOTIFY_DELAYS": "Notifier les Retards",
+      "NOTIFY_CANCELLATIONS": "Notifier les Annulations",
+      "MIN_DELAY": "Retard Minimum (minutes)",
+      "ANY_DELAY": "Tout retard",
+      "REMOVE": "Supprimer",
+      "SUBSCRIBE": "S'abonner",
+      "SUBSCRIBED": "Abonné",
+      "EMPTY": {
+        "TITLE": "Aucune ligne de train abonnée",
+        "SUBTITLE": "Ajoutez des lignes de train ci-dessous pour commencer à recevoir des notifications"
+      }
+    },
+    "WEATHER": {
+      "TITLE": "Abonnements Alertes Météo",
+      "SUBTITLE": "Soyez averti des conditions météo sévères dans vos régions",
+      "YOUR_REGIONS": "Vos Régions Météo",
+      "ALERT_TYPES": "Types d'Alertes",
+      "BELGIAN_REGIONS": "Régions Belges",
+      "REMOVE": "Supprimer",
+      "SUBSCRIBE": "S'abonner",
+      "SUBSCRIBED": "Abonné",
+      "EMPTY": {
+        "TITLE": "Aucune région météo abonnée",
+        "SUBTITLE": "Ajoutez des régions ci-dessous pour commencer à recevoir des alertes météo"
+      },
+      "TYPES": {
+        "THUNDERSTORM": "Orage",
+        "HEAVY_RAIN": "Pluie Forte",
+        "SNOW": "Neige",
+        "ICE": "Verglas",
+        "WIND": "Vent",
+        "FOG": "Brouillard",
+        "HEAT": "Chaleur",
+        "COLD": "Froid"
+      }
+    },
+    "STIB": {
+      "TITLE": "Abonnements STIB/MIVB",
+      "SUBTITLE": "Soyez averti des perturbations sur les lignes de métro, tram et bus",
+      "YOUR_LINES": "Vos Lignes STIB",
+      "POPULAR_LINES": "Lignes Populaires",
+      "ENABLE": "Notifications Activées",
+      "NOTIFY_DISRUPTIONS": "Notifier les Perturbations",
+      "REMOVE": "Supprimer",
+      "SUBSCRIBE": "S'abonner",
+      "SUBSCRIBED": "Abonné",
+      "EMPTY": {
+        "TITLE": "Aucune ligne STIB abonnée",
+        "SUBTITLE": "Ajoutez des lignes de métro, tram ou bus ci-dessous pour commencer à recevoir des notifications"
+      }
+    },
+    "SETTINGS": {
+      "TITLE": "Paramètres de Notification",
+      "SUBTITLE": "Personnalisez vos préférences de notification",
+      "QUIET_HOURS": {
+        "TITLE": "Heures Silencieuses",
+        "SUBTITLE": "Suspendre les notifications pendant des heures spécifiques",
+        "ENABLE": "Activer les Heures Silencieuses",
+        "START_TIME": "Heure de Début",
+        "END_TIME": "Heure de Fin",
+        "ALLOW_CRITICAL": "Autoriser les notifications critiques pendant les heures silencieuses",
+        "SAVE": "Enregistrer les Paramètres"
+      },
+      "PUSH": {
+        "TITLE": "Notifications Push",
+        "STATUS": "État",
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé",
+        "DESCRIPTION_ENABLED": "Vous recevez actuellement des notifications push. Vous pouvez les désactiver ci-dessous.",
+        "DESCRIPTION_DISABLED": "Les notifications push sont désactivées. Allez sur le tableau de bord pour les activer.",
+        "DISABLE": "Désactiver les Notifications Push"
+      },
+      "STORAGE": {
+        "TITLE": "Gestion du Stockage",
+        "SUBTITLE": "Gérer les données hors ligne et le cache",
+        "DATABASE_SIZE": "Taille de la Base de Données",
+        "CLEAR_CACHE": "Vider le Cache",
+        "CLEAR_ALL": "Effacer Toutes les Données",
+        "WARNING": "Effacer toutes les données supprimera vos abonnements et l'historique des notifications. Cette action ne peut pas être annulée."
+      },
+      "ABOUT": {
+        "TITLE": "À propos de Liteyfy",
+        "VERSION": "Version",
+        "DATA_SOURCES": "Sources de Données",
+        "WEATHER": "Météo : API KMI/IRM",
+        "TRAINS": "Trains : API iRail",
+        "STIB": "STIB : API data.stib-mivb.be",
+        "DESCRIPTION": "Liteyfy est une Progressive Web App qui fournit des notifications en temps réel pour les retards de train, les alertes météo et les perturbations des transports publics en Belgique."
+      }
+    }
+  },
+  "LIVE_STATUS": {
+    "TITLE": "État en Direct",
+    "SUBTITLE": "Mises à jour en temps réel sur les transports et la météo",
+    "REFRESH": "Actualiser",
+    "TRAINS": {
+      "TAB": "Trains",
+      "NO_DELAYS": "Aucun retard signalé",
+      "ALL_ON_TIME": "Tous les trains sont à l'heure",
+      "DELAY": "min de retard"
+    },
+    "WEATHER": {
+      "TAB": "Météo",
+      "NO_ALERTS": "Aucune alerte météo active",
+      "NORMAL": "Les conditions météo sont normales",
+      "STARTED": "Commencé"
+    },
+    "STIB": {
+      "TAB": "STIB",
+      "NO_DISRUPTIONS": "Aucune perturbation",
+      "NORMAL": "Toutes les lignes fonctionnent normalement"
+    }
+  },
+  "COMMON": {
+    "ONLINE": "En ligne",
+    "OFFLINE": "Hors ligne",
+    "OFFLINE_MESSAGE": "Vous êtes actuellement hors ligne. Certaines fonctionnalités peuvent être limitées.",
+    "PUSH_ENABLED": "Push Activé",
+    "LOADING": "Chargement...",
+    "ERROR": "Erreur",
+    "SUCCESS": "Succès",
+    "CANCEL": "Annuler",
+    "CONFIRM": "Confirmer",
+    "SAVE": "Enregistrer",
+    "DELETE": "Supprimer",
+    "EDIT": "Modifier",
+    "CLOSE": "Fermer"
+  }
+}
+

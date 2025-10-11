@@ -1,0 +1,51 @@
+.subscriptions-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 24px;
+}
+
+nav[mat-tab-nav-bar] {
+  margin-bottom: 24px;
+
+  a[mat-tab-link] {
+    mat-icon {
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+}
+
+mat-tab-nav-panel {
+  padding: 24px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 599px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  nav[mat-tab-nav-bar] {
+    a[mat-tab-link] {
+      mat-icon {
+        margin-right: 4px;
+        font-size: 18px;
+      }
+
+      font-size: 12px;
+    }
+  }
+}
+

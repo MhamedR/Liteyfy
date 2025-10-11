@@ -1,0 +1,98 @@
+<div class="train-subscriptions">
+  <div class="section-header">
+    <h2>{{ 'SUBSCRIPTIONS.TRAINS.YOUR_LINES' | translate }}</h2>
+    <p>{{ 'SUBSCRIPTIONS.TRAINS.SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Current Subscriptions -->
+  <div class="subscriptions-list" *ngIf="trainLines().length > 0">
+    <mat-card *ngFor="let line of trainLines()" class="subscription-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>train</mat-icon>
+        <mat-card-title>{{ line.lineName }}</mat-card-title>
+        <mat-card-subtitle>ID: {{ line.lineId }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="subscription-options">
+          <mat-slide-toggle
+            [(ngModel)]="line.enabled"
+            (change)="updateLine(line.lineId, { enabled: line.enabled })"
+            color="primary">
+            {{ 'SUBSCRIPTIONS.TRAINS.ENABLE' | translate }}
+          </mat-slide-toggle>
+
+          <mat-slide-toggle
+            [(ngModel)]="line.notifyDelays"
+            (change)="updateLine(line.lineId, { notifyDelays: line.notifyDelays })"
+            [disabled]="!line.enabled"
+            color="primary">
+            {{ 'SUBSCRIPTIONS.TRAINS.NOTIFY_DELAYS' | translate }}
+          </mat-slide-toggle>
+
+          <mat-slide-toggle
+            [(ngModel)]="line.notifyCancellations"
+            (change)="updateLine(line.lineId, { notifyCancellations: line.notifyCancellations })"
+            [disabled]="!line.enabled"
+            color="primary">
+            {{ 'SUBSCRIPTIONS.TRAINS.NOTIFY_CANCELLATIONS' | translate }}
+          </mat-slide-toggle>
+
+          <mat-form-field appearance="outline" class="delay-threshold">
+            <mat-label>{{ 'SUBSCRIPTIONS.TRAINS.MIN_DELAY' | translate }}</mat-label>
+            <mat-select
+              [(ngModel)]="line.minDelayMinutes"
+              (selectionChange)="updateLine(line.lineId, { minDelayMinutes: line.minDelayMinutes })"
+              [disabled]="!line.enabled">
+              <mat-option [value]="0">{{ 'SUBSCRIPTIONS.TRAINS.ANY_DELAY' | translate }}</mat-option>
+              <mat-option [value]="5">5+ {{ 'SUBSCRIPTIONS.TRAINS.MIN_DELAY' | translate }}</mat-option>
+              <mat-option [value]="10">10+ {{ 'SUBSCRIPTIONS.TRAINS.MIN_DELAY' | translate }}</mat-option>
+              <mat-option [value]="15">15+ {{ 'SUBSCRIPTIONS.TRAINS.MIN_DELAY' | translate }}</mat-option>
+              <mat-option [value]="30">30+ {{ 'SUBSCRIPTIONS.TRAINS.MIN_DELAY' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="warn" (click)="removeLine(line.lineId)">
+          <mat-icon>delete</mat-icon>
+          {{ 'SUBSCRIPTIONS.TRAINS.REMOVE' | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="trainLines().length === 0">
+    <mat-icon>train</mat-icon>
+    <h3>{{ 'SUBSCRIPTIONS.TRAINS.EMPTY.TITLE' | translate }}</h3>
+    <p>{{ 'SUBSCRIPTIONS.TRAINS.EMPTY.SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Popular Lines -->
+  <div class="popular-lines">
+    <h2>{{ 'SUBSCRIPTIONS.TRAINS.POPULAR_LINES' | translate }}</h2>
+    <p>{{ 'SUBSCRIPTIONS.TRAINS.SUBTITLE' | translate }}</p>
+
+    <div class="lines-grid">
+      <mat-card *ngFor="let line of popularLines" class="line-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>train</mat-icon>
+          <mat-card-title>{{ line.name }}</mat-card-title>
+          <mat-card-subtitle>{{ line.number }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            [color]="isLineSubscribed(line.id) ? 'accent' : 'primary'"
+            [disabled]="isLineSubscribed(line.id)"
+            (click)="addLine(line)">
+            <mat-icon>{{ isLineSubscribed(line.id) ? 'check' : 'add' }}</mat-icon>
+            {{ isLineSubscribed(line.id) ? ('SUBSCRIPTIONS.TRAINS.SUBSCRIBED' | translate) : ('SUBSCRIPTIONS.TRAINS.SUBSCRIBE' | translate) }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

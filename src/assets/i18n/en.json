@@ -1,0 +1,212 @@
+{
+  "APP": {
+    "TITLE": "Liteyfy",
+    "SUBTITLE": "Real-Time Transport & Weather Alerts",
+    "DESCRIPTION": "Stay informed about train delays and weather alerts in real-time"
+  },
+  "NAV": {
+    "DASHBOARD": "Dashboard",
+    "NOTIFICATIONS": "Notifications",
+    "SUBSCRIPTIONS": "My Subscriptions",
+    "LIVE_STATUS": "Live Status",
+    "SETTINGS": "Settings"
+  },
+  "DASHBOARD": {
+    "TITLE": "Welcome to Liteyfy",
+    "SUBTITLE": "Stay informed about train delays and weather alerts in real-time",
+    "ENABLE_NOTIFICATIONS": {
+      "TITLE": "Enable Push Notifications",
+      "SUBTITLE": "Get real-time alerts about your transport and weather",
+      "DESCRIPTION": "To receive real-time notifications about train delays, cancellations, and weather alerts, you need to enable push notifications in your browser.",
+      "PERMISSION_STATUS": "Permission Status",
+      "BUTTON": "Enable Notifications",
+      "BUTTON_LOADING": "Enabling..."
+    },
+    "STATS": {
+      "SUBSCRIPTIONS": "Active Subscriptions",
+      "NOTIFICATIONS": "Unread Notifications",
+      "PUSH_STATUS": "Push Notifications",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "MANAGE": "Manage",
+      "VIEW_ALL": "View All",
+      "TEST": "Test"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Quick Actions",
+      "TRAIN_LINES": "Train Lines",
+      "WEATHER_ALERTS": "Weather Alerts",
+      "STIB_LINES": "STIB Lines",
+      "LIVE_STATUS": "Live Status",
+      "SUBSCRIBED": "subscribed",
+      "REGIONS": "regions",
+      "REAL_TIME": "Real-time updates"
+    },
+    "ABOUT": {
+      "TITLE": "About Liteyfy",
+      "DESCRIPTION": "Liteyfy provides real-time notifications for:",
+      "TRAIN_DELAYS": "SNCB Train Delays",
+      "STIB_DISRUPTIONS": "STIB Disruptions",
+      "WEATHER_ALERTS": "Weather Alerts",
+      "STATION_UPDATES": "Station Updates",
+      "FOOTER": "All notifications work offline and are synchronized when you're back online. Your preferences are stored locally and backed up to the cloud."
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "UNREAD": "unread notification",
+    "UNREAD_PLURAL": "unread notifications",
+    "MARK_ALL_READ": "Mark All Read",
+    "CLEAR_OLD": "Clear Old Notifications",
+    "EMPTY": {
+      "TITLE": "No notifications yet",
+      "SUBTITLE": "You'll see your notifications here when they arrive"
+    },
+    "VIEW_DETAILS": "View Details",
+    "DISMISS": "Dismiss",
+    "TIME": {
+      "JUST_NOW": "Just now",
+      "MINUTES_AGO": "m ago",
+      "HOURS_AGO": "h ago",
+      "DAYS_AGO": "d ago"
+    }
+  },
+  "SUBSCRIPTIONS": {
+    "TITLE": "Manage Subscriptions",
+    "SUBTITLE": "Choose what notifications you want to receive",
+    "TRAINS": {
+      "TITLE": "Train Lines",
+      "SUBTITLE": "Manage your train line subscriptions and notification preferences",
+      "YOUR_LINES": "Your Train Lines",
+      "POPULAR_LINES": "Popular Train Lines",
+      "ENABLE": "Notifications Enabled",
+      "NOTIFY_DELAYS": "Notify on Delays",
+      "NOTIFY_CANCELLATIONS": "Notify on Cancellations",
+      "MIN_DELAY": "Minimum Delay (minutes)",
+      "ANY_DELAY": "Any delay",
+      "REMOVE": "Remove",
+      "SUBSCRIBE": "Subscribe",
+      "SUBSCRIBED": "Subscribed",
+      "EMPTY": {
+        "TITLE": "No train lines subscribed",
+        "SUBTITLE": "Add train lines below to start receiving notifications"
+      }
+    },
+    "WEATHER": {
+      "TITLE": "Weather Alert Subscriptions",
+      "SUBTITLE": "Get notified about severe weather in your regions",
+      "YOUR_REGIONS": "Your Weather Regions",
+      "ALERT_TYPES": "Alert Types",
+      "BELGIAN_REGIONS": "Belgian Regions",
+      "REMOVE": "Remove",
+      "SUBSCRIBE": "Subscribe",
+      "SUBSCRIBED": "Subscribed",
+      "EMPTY": {
+        "TITLE": "No weather regions subscribed",
+        "SUBTITLE": "Add regions below to start receiving weather alerts"
+      },
+      "TYPES": {
+        "THUNDERSTORM": "Thunderstorm",
+        "HEAVY_RAIN": "Heavy Rain",
+        "SNOW": "Snow",
+        "ICE": "Ice",
+        "WIND": "Wind",
+        "FOG": "Fog",
+        "HEAT": "Heat",
+        "COLD": "Cold"
+      }
+    },
+    "STIB": {
+      "TITLE": "STIB/MIVB Subscriptions",
+      "SUBTITLE": "Get notified about disruptions on metro, tram, and bus lines",
+      "YOUR_LINES": "Your STIB Lines",
+      "POPULAR_LINES": "Popular Lines",
+      "ENABLE": "Notifications Enabled",
+      "NOTIFY_DISRUPTIONS": "Notify on Disruptions",
+      "REMOVE": "Remove",
+      "SUBSCRIBE": "Subscribe",
+      "SUBSCRIBED": "Subscribed",
+      "EMPTY": {
+        "TITLE": "No STIB lines subscribed",
+        "SUBTITLE": "Add metro, tram, or bus lines below to start receiving notifications"
+      }
+    },
+    "SETTINGS": {
+      "TITLE": "Notification Settings",
+      "SUBTITLE": "Customize your notification preferences",
+      "QUIET_HOURS": {
+        "TITLE": "Quiet Hours",
+        "SUBTITLE": "Pause notifications during specific hours",
+        "ENABLE": "Enable Quiet Hours",
+        "START_TIME": "Start Time",
+        "END_TIME": "End Time",
+        "ALLOW_CRITICAL": "Allow critical notifications during quiet hours",
+        "SAVE": "Save Settings"
+      },
+      "PUSH": {
+        "TITLE": "Push Notifications",
+        "STATUS": "Status",
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled",
+        "DESCRIPTION_ENABLED": "You are currently receiving push notifications. You can disable them below.",
+        "DESCRIPTION_DISABLED": "Push notifications are disabled. Go to the Dashboard to enable them.",
+        "DISABLE": "Disable Push Notifications"
+      },
+      "STORAGE": {
+        "TITLE": "Storage Management",
+        "SUBTITLE": "Manage offline data and cache",
+        "DATABASE_SIZE": "Database Size",
+        "CLEAR_CACHE": "Clear Cache",
+        "CLEAR_ALL": "Clear All Data",
+        "WARNING": "Clearing all data will remove your subscriptions and notification history. This action cannot be undone."
+      },
+      "ABOUT": {
+        "TITLE": "About Liteyfy",
+        "VERSION": "Version",
+        "DATA_SOURCES": "Data Sources",
+        "WEATHER": "Weather: KMI/IRM API",
+        "TRAINS": "Trains: iRail API",
+        "STIB": "STIB: data.stib-mivb.be API",
+        "DESCRIPTION": "Liteyfy is a Progressive Web App that provides real-time notifications for train delays, weather alerts, and public transport disruptions in Belgium."
+      }
+    }
+  },
+  "LIVE_STATUS": {
+    "TITLE": "Live Status",
+    "SUBTITLE": "Real-time updates on transport and weather",
+    "REFRESH": "Refresh",
+    "TRAINS": {
+      "TAB": "Trains",
+      "NO_DELAYS": "No delays reported",
+      "ALL_ON_TIME": "All trains are running on time",
+      "DELAY": "min delay"
+    },
+    "WEATHER": {
+      "TAB": "Weather",
+      "NO_ALERTS": "No active weather alerts",
+      "NORMAL": "Weather conditions are normal",
+      "STARTED": "Started"
+    },
+    "STIB": {
+      "TAB": "STIB",
+      "NO_DISRUPTIONS": "No disruptions",
+      "NORMAL": "All lines operating normally"
+    }
+  },
+  "COMMON": {
+    "ONLINE": "Online",
+    "OFFLINE": "Offline",
+    "OFFLINE_MESSAGE": "You are currently offline. Some features may be limited.",
+    "PUSH_ENABLED": "Push Enabled",
+    "LOADING": "Loading...",
+    "ERROR": "Error",
+    "SUCCESS": "Success",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm",
+    "SAVE": "Save",
+    "DELETE": "Delete",
+    "EDIT": "Edit",
+    "CLOSE": "Close"
+  }
+}
+

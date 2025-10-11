@@ -1,0 +1,212 @@
+{
+  "APP": {
+    "TITLE": "Liteyfy",
+    "SUBTITLE": "Real-Time Transport & Weer Waarschuwingen",
+    "DESCRIPTION": "Blijf op de hoogte van treinvertragingen en weerwaarschuwingen in real-time"
+  },
+  "NAV": {
+    "DASHBOARD": "Dashboard",
+    "NOTIFICATIONS": "Meldingen",
+    "SUBSCRIPTIONS": "Mijn Abonnementen",
+    "LIVE_STATUS": "Live Status",
+    "SETTINGS": "Instellingen"
+  },
+  "DASHBOARD": {
+    "TITLE": "Welkom bij Liteyfy",
+    "SUBTITLE": "Blijf op de hoogte van treinvertragingen en weerwaarschuwingen in real-time",
+    "ENABLE_NOTIFICATIONS": {
+      "TITLE": "Push Meldingen Inschakelen",
+      "SUBTITLE": "Ontvang real-time waarschuwingen over uw transport en weer",
+      "DESCRIPTION": "Om real-time meldingen te ontvangen over treinvertragingen, annuleringen en weerwaarschuwingen, moet u pushmeldingen inschakelen in uw browser.",
+      "PERMISSION_STATUS": "Toestemmingsstatus",
+      "BUTTON": "Meldingen Inschakelen",
+      "BUTTON_LOADING": "Inschakelen..."
+    },
+    "STATS": {
+      "SUBSCRIPTIONS": "Actieve Abonnementen",
+      "NOTIFICATIONS": "Ongelezen Meldingen",
+      "PUSH_STATUS": "Push Meldingen",
+      "ACTIVE": "Actief",
+      "INACTIVE": "Inactief",
+      "MANAGE": "Beheren",
+      "VIEW_ALL": "Alles Bekijken",
+      "TEST": "Testen"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Snelle Acties",
+      "TRAIN_LINES": "Treinlijnen",
+      "WEATHER_ALERTS": "Weerwaarschuwingen",
+      "STIB_LINES": "MIVB Lijnen",
+      "LIVE_STATUS": "Live Status",
+      "SUBSCRIBED": "geabonneerd",
+      "REGIONS": "regio's",
+      "REAL_TIME": "Real-time updates"
+    },
+    "ABOUT": {
+      "TITLE": "Over Liteyfy",
+      "DESCRIPTION": "Liteyfy biedt real-time meldingen voor:",
+      "TRAIN_DELAYS": "NMBS Treinvertragingen",
+      "STIB_DISRUPTIONS": "MIVB Verstoringen",
+      "WEATHER_ALERTS": "Weerwaarschuwingen",
+      "STATION_UPDATES": "Station Updates",
+      "FOOTER": "Alle meldingen werken offline en worden gesynchroniseerd wanneer u weer online bent. Uw voorkeuren worden lokaal opgeslagen en geback-upt naar de cloud."
+    }
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Meldingen",
+    "UNREAD": "ongelezen melding",
+    "UNREAD_PLURAL": "ongelezen meldingen",
+    "MARK_ALL_READ": "Alles Markeren als Gelezen",
+    "CLEAR_OLD": "Oude Meldingen Wissen",
+    "EMPTY": {
+      "TITLE": "Nog geen meldingen",
+      "SUBTITLE": "U ziet uw meldingen hier wanneer ze arriveren"
+    },
+    "VIEW_DETAILS": "Details Bekijken",
+    "DISMISS": "Negeren",
+    "TIME": {
+      "JUST_NOW": "Zojuist",
+      "MINUTES_AGO": "m geleden",
+      "HOURS_AGO": "u geleden",
+      "DAYS_AGO": "d geleden"
+    }
+  },
+  "SUBSCRIPTIONS": {
+    "TITLE": "Abonnementen Beheren",
+    "SUBTITLE": "Kies welke meldingen u wilt ontvangen",
+    "TRAINS": {
+      "TITLE": "Treinlijnen",
+      "SUBTITLE": "Beheer uw treinlijn abonnementen en meldingsvoorkeuren",
+      "YOUR_LINES": "Uw Treinlijnen",
+      "POPULAR_LINES": "Populaire Treinlijnen",
+      "ENABLE": "Meldingen Ingeschakeld",
+      "NOTIFY_DELAYS": "Melden bij Vertragingen",
+      "NOTIFY_CANCELLATIONS": "Melden bij Annuleringen",
+      "MIN_DELAY": "Minimale Vertraging (minuten)",
+      "ANY_DELAY": "Elke vertraging",
+      "REMOVE": "Verwijderen",
+      "SUBSCRIBE": "Abonneren",
+      "SUBSCRIBED": "Geabonneerd",
+      "EMPTY": {
+        "TITLE": "Geen treinlijnen geabonneerd",
+        "SUBTITLE": "Voeg hieronder treinlijnen toe om meldingen te ontvangen"
+      }
+    },
+    "WEATHER": {
+      "TITLE": "Weerwaarschuwing Abonnementen",
+      "SUBTITLE": "Ontvang meldingen over zwaar weer in uw regio's",
+      "YOUR_REGIONS": "Uw Weerregio's",
+      "ALERT_TYPES": "Waarschuwingstypen",
+      "BELGIAN_REGIONS": "Belgische Regio's",
+      "REMOVE": "Verwijderen",
+      "SUBSCRIBE": "Abonneren",
+      "SUBSCRIBED": "Geabonneerd",
+      "EMPTY": {
+        "TITLE": "Geen weerregio's geabonneerd",
+        "SUBTITLE": "Voeg hieronder regio's toe om weerwaarschuwingen te ontvangen"
+      },
+      "TYPES": {
+        "THUNDERSTORM": "Onweer",
+        "HEAVY_RAIN": "Zware Regen",
+        "SNOW": "Sneeuw",
+        "ICE": "IJs",
+        "WIND": "Wind",
+        "FOG": "Mist",
+        "HEAT": "Hitte",
+        "COLD": "Koude"
+      }
+    },
+    "STIB": {
+      "TITLE": "MIVB Abonnementen",
+      "SUBTITLE": "Ontvang meldingen over verstoringen op metro-, tram- en buslijnen",
+      "YOUR_LINES": "Uw MIVB Lijnen",
+      "POPULAR_LINES": "Populaire Lijnen",
+      "ENABLE": "Meldingen Ingeschakeld",
+      "NOTIFY_DISRUPTIONS": "Melden bij Verstoringen",
+      "REMOVE": "Verwijderen",
+      "SUBSCRIBE": "Abonneren",
+      "SUBSCRIBED": "Geabonneerd",
+      "EMPTY": {
+        "TITLE": "Geen MIVB lijnen geabonneerd",
+        "SUBTITLE": "Voeg hieronder metro-, tram- of buslijnen toe om meldingen te ontvangen"
+      }
+    },
+    "SETTINGS": {
+      "TITLE": "Meldingsinstellingen",
+      "SUBTITLE": "Pas uw meldingsvoorkeuren aan",
+      "QUIET_HOURS": {
+        "TITLE": "Stille Uren",
+        "SUBTITLE": "Pauzeer meldingen tijdens specifieke uren",
+        "ENABLE": "Stille Uren Inschakelen",
+        "START_TIME": "Starttijd",
+        "END_TIME": "Eindtijd",
+        "ALLOW_CRITICAL": "Sta kritieke meldingen toe tijdens stille uren",
+        "SAVE": "Instellingen Opslaan"
+      },
+      "PUSH": {
+        "TITLE": "Push Meldingen",
+        "STATUS": "Status",
+        "ENABLED": "Ingeschakeld",
+        "DISABLED": "Uitgeschakeld",
+        "DESCRIPTION_ENABLED": "U ontvangt momenteel pushmeldingen. U kunt ze hieronder uitschakelen.",
+        "DESCRIPTION_DISABLED": "Pushmeldingen zijn uitgeschakeld. Ga naar het Dashboard om ze in te schakelen.",
+        "DISABLE": "Push Meldingen Uitschakelen"
+      },
+      "STORAGE": {
+        "TITLE": "Opslagbeheer",
+        "SUBTITLE": "Beheer offline gegevens en cache",
+        "DATABASE_SIZE": "Database Grootte",
+        "CLEAR_CACHE": "Cache Wissen",
+        "CLEAR_ALL": "Alle Gegevens Wissen",
+        "WARNING": "Het wissen van alle gegevens verwijdert uw abonnementen en meldingsgeschiedenis. Deze actie kan niet ongedaan worden gemaakt."
+      },
+      "ABOUT": {
+        "TITLE": "Over Liteyfy",
+        "VERSION": "Versie",
+        "DATA_SOURCES": "Gegevensbronnen",
+        "WEATHER": "Weer: KMI/IRM API",
+        "TRAINS": "Treinen: iRail API",
+        "STIB": "MIVB: data.stib-mivb.be API",
+        "DESCRIPTION": "Liteyfy is een Progressive Web App die real-time meldingen biedt voor treinvertragingen, weerwaarschuwingen en verstoringen van het openbaar vervoer in België."
+      }
+    }
+  },
+  "LIVE_STATUS": {
+    "TITLE": "Live Status",
+    "SUBTITLE": "Real-time updates over transport en weer",
+    "REFRESH": "Vernieuwen",
+    "TRAINS": {
+      "TAB": "Treinen",
+      "NO_DELAYS": "Geen vertragingen gemeld",
+      "ALL_ON_TIME": "Alle treinen rijden op tijd",
+      "DELAY": "min vertraging"
+    },
+    "WEATHER": {
+      "TAB": "Weer",
+      "NO_ALERTS": "Geen actieve weerwaarschuwingen",
+      "NORMAL": "Weersomstandigheden zijn normaal",
+      "STARTED": "Begonnen"
+    },
+    "STIB": {
+      "TAB": "MIVB",
+      "NO_DISRUPTIONS": "Geen verstoringen",
+      "NORMAL": "Alle lijnen rijden normaal"
+    }
+  },
+  "COMMON": {
+    "ONLINE": "Online",
+    "OFFLINE": "Offline",
+    "OFFLINE_MESSAGE": "U bent momenteel offline. Sommige functies kunnen beperkt zijn.",
+    "PUSH_ENABLED": "Push Ingeschakeld",
+    "LOADING": "Laden...",
+    "ERROR": "Fout",
+    "SUCCESS": "Succes",
+    "CANCEL": "Annuleren",
+    "CONFIRM": "Bevestigen",
+    "SAVE": "Opslaan",
+    "DELETE": "Verwijderen",
+    "EDIT": "Bewerken",
+    "CLOSE": "Sluiten"
+  }
+}
+

@@ -1,0 +1,54 @@
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Angular
+.angular
+dist
+.ng_cache
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Tests
+coverage
+*.spec.ts
+
+# Documentation (not needed in container)
+*.md
+!README.md
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Environment files (use secrets management)
+.env
+.env.*
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp
+temp
+.tmp
+
+# Build artifacts (except for production builds)
+*.tgz
+

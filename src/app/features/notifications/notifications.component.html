@@ -1,0 +1,93 @@
+<div class="notifications-container">
+  <div class="header">
+    <div>
+      <h1 class="page-title">{{ 'NOTIFICATIONS.TITLE' | translate }}</h1>
+      <p class="page-subtitle" *ngIf="(unreadCount$ | async) as unreadCount">
+        {{ unreadCount }} {{ unreadCount === 1 ? ('NOTIFICATIONS.UNREAD' | translate) : ('NOTIFICATIONS.UNREAD_PLURAL' | translate) }}
+      </p>
+    </div>
+    <div class="header-actions">
+      <button mat-button (click)="markAllAsRead()">
+        <mat-icon>done_all</mat-icon>
+        {{ 'NOTIFICATIONS.MARK_ALL_READ' | translate }}
+      </button>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="clearOld()">
+          <mat-icon>delete_sweep</mat-icon>
+          {{ 'NOTIFICATIONS.CLEAR_OLD' | translate }}
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <div class="notifications-list">
+    <ng-container *ngIf="(notifications$ | async) as notifications">
+      <div *ngIf="notifications.length === 0" class="empty-state">
+        <mat-icon>notifications_none</mat-icon>
+        <h2>{{ 'NOTIFICATIONS.EMPTY.TITLE' | translate }}</h2>
+        <p>{{ 'NOTIFICATIONS.EMPTY.SUBTITLE' | translate }}</p>
+      </div>
+
+      <mat-card 
+        *ngFor="let notification of notifications"
+        class="notification-card"
+        [class.unread]="!notification.read"
+        (click)="markAsRead(notification)">
+        
+        <mat-card-header>
+          <div mat-card-avatar 
+               class="notification-avatar"
+               [style.background-color]="getNotificationColor(notification.priority)">
+            <mat-icon>{{ getNotificationIcon(notification.type) }}</mat-icon>
+          </div>
+          
+          <mat-card-title>{{ notification.title }}</mat-card-title>
+          
+          <mat-card-subtitle>
+            <span class="timestamp">{{ formatTime(notification.timestamp) }}</span>
+            <mat-chip class="priority-chip" 
+                     [style.background-color]="getNotificationColor(notification.priority)"
+                     [style.color]="'white'">
+              {{ getPriorityLabel(notification.priority) }}
+            </mat-chip>
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="notification-body">{{ notification.body }}</p>
+          
+          <div class="notification-metadata" *ngIf="notification.data">
+            <mat-chip-set>
+              <mat-chip *ngIf="notification.data.trainNumber">
+                Train {{ notification.data.trainNumber }}
+              </mat-chip>
+              <mat-chip *ngIf="notification.data.station">
+                {{ notification.data.station }}
+              </mat-chip>
+              <mat-chip *ngIf="notification.data.delay">
+                +{{ notification.data.delay }} min
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-button *ngIf="notification.actionUrl" color="primary">
+            <mat-icon>open_in_new</mat-icon>
+            {{ 'NOTIFICATIONS.VIEW_DETAILS' | translate }}
+          </button>
+          <span class="spacer"></span>
+          <button mat-icon-button (click)="deleteNotification(notification, $event)" [attr.aria-label]="'NOTIFICATIONS.DISMISS' | translate">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+
+        <div class="unread-indicator" *ngIf="!notification.read"></div>
+      </mat-card>
+    </ng-container>
+  </div>
+</div>
+

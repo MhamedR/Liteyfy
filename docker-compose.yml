@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # Development Angular app with hot reload
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: liteyfy-dev
+    ports:
+      - "4200:4200"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.angular
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    networks:
+      - liteyfy-network
+    command: npm start -- --host 0.0.0.0 --poll 2000
+
+  # Optional: Backend API service (to be implemented in Step 2)
+  # backend:
+  #   image: liteyfy-backend:latest
+  #   container_name: liteyfy-backend
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=development
+  #     - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/liteyfy
+  #     - REDIS_URL=redis://redis:6379
+  #   networks:
+  #     - liteyfy-network
+  #   depends_on:
+  #     - postgres
+  #     - redis
+
+  # Optional: PostgreSQL database (for Step 2)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: liteyfy-postgres
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     - POSTGRES_DB=liteyfy
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   networks:
+  #     - liteyfy-network
+
+  # Optional: Redis cache (for Step 2)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: liteyfy-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - liteyfy-network
+
+networks:
+  liteyfy-network:
+    driver: bridge
+
+# volumes:
+#   postgres-data:
+#   redis-data:
+

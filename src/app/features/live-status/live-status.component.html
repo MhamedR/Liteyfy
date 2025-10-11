@@ -1,0 +1,111 @@
+<div class="live-status-container">
+  <div class="header">
+    <div>
+      <h1 class="page-title">{{ 'LIVE_STATUS.TITLE' | translate }}</h1>
+      <p class="page-subtitle">{{ 'LIVE_STATUS.SUBTITLE' | translate }}</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="refresh()" [disabled]="isLoading()">
+      <mat-icon>refresh</mat-icon>
+      {{ 'LIVE_STATUS.REFRESH' | translate }}
+    </button>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-tab-group *ngIf="!isLoading()">
+    <!-- Train Status -->
+    <mat-tab [label]="'LIVE_STATUS.TRAINS.TAB' | translate">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <div *ngIf="trainDelays.length === 0" class="empty-state">
+            <mat-icon>check_circle</mat-icon>
+            <h3>{{ 'LIVE_STATUS.TRAINS.NO_DELAYS' | translate }}</h3>
+            <p>{{ 'LIVE_STATUS.TRAINS.ALL_ON_TIME' | translate }}</p>
+          </div>
+
+          <mat-card *ngFor="let delay of trainDelays" class="status-card delay-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar class="delay-icon">train</mat-icon>
+              <mat-card-title>{{ delay.train }}</mat-card-title>
+              <mat-card-subtitle>{{ delay.from }} → {{ delay.to }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div class="delay-info">
+                <mat-chip class="delay-chip" [style.background-color]="'#ff9800'">
+                  +{{ delay.delay }} {{ 'LIVE_STATUS.TRAINS.DELAY' | translate }}
+                </mat-chip>
+                <p class="reason">{{ delay.reason }}</p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- Weather Status -->
+    <mat-tab [label]="'LIVE_STATUS.WEATHER.TAB' | translate">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <div *ngIf="weatherAlerts.length === 0" class="empty-state">
+            <mat-icon>wb_sunny</mat-icon>
+            <h3>{{ 'LIVE_STATUS.WEATHER.NO_ALERTS' | translate }}</h3>
+            <p>{{ 'LIVE_STATUS.WEATHER.NORMAL' | translate }}</p>
+          </div>
+
+          <mat-card *ngFor="let alert of weatherAlerts" class="status-card weather-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar class="weather-icon">warning</mat-icon>
+              <mat-card-title>{{ alert.type }}</mat-card-title>
+              <mat-card-subtitle>{{ alert.region }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <mat-chip
+                class="severity-chip"
+                [style.background-color]="getSeverityColor(alert.severity)"
+                [style.color]="alert.severity === 'YELLOW' ? '#000' : '#fff'">
+                {{ alert.severity }}
+              </mat-chip>
+              <p class="time">{{ 'LIVE_STATUS.WEATHER.STARTED' | translate }}: {{ alert.startTime | date:'short' }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <!-- STIB Status -->
+    <mat-tab [label]="'LIVE_STATUS.STIB.TAB' | translate">
+      <ng-template matTabContent>
+        <div class="tab-content">
+          <div *ngIf="stibDisruptions.length === 0" class="empty-state">
+            <mat-icon>check_circle</mat-icon>
+            <h3>{{ 'LIVE_STATUS.STIB.NO_DISRUPTIONS' | translate }}</h3>
+            <p>{{ 'LIVE_STATUS.STIB.NORMAL' | translate }}</p>
+          </div>
+
+          <mat-card *ngFor="let disruption of stibDisruptions" class="status-card stib-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar class="stib-icon">
+                {{ disruption.type === 'METRO' ? 'subway' : 'tram' }}
+              </mat-icon>
+              <mat-card-title>{{ disruption.line }}</mat-card-title>
+              <mat-card-subtitle>{{ disruption.type }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p class="issue">{{ disruption.issue }}</p>
+              <mat-chip
+                class="severity-chip"
+                [style.background-color]="getSeverityColor(disruption.severity)">
+                {{ disruption.severity }}
+              </mat-chip>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

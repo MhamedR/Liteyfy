@@ -1,0 +1,88 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+    
+    <mat-toolbar color="primary">
+      <span class="logo">🚆 Liteyfy</span>
+    </mat-toolbar>
+    
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>{{ 'NAV.DASHBOARD' | translate }}</span>
+      </a>
+      
+      <a mat-list-item routerLink="/notifications" routerLinkActive="active">
+        <mat-icon matListItemIcon [matBadge]="(unreadCount$ | async) || ''" matBadgeColor="warn">
+          notifications
+        </mat-icon>
+        <span matListItemTitle>{{ 'NAV.NOTIFICATIONS' | translate }}</span>
+      </a>
+      
+      <a mat-list-item routerLink="/subscriptions" routerLinkActive="active">
+        <mat-icon matListItemIcon>tune</mat-icon>
+        <span matListItemTitle>{{ 'NAV.SUBSCRIPTIONS' | translate }}</span>
+      </a>
+      
+      <a mat-list-item routerLink="/live-status" routerLinkActive="active">
+        <mat-icon matListItemIcon>live_tv</mat-icon>
+        <span matListItemTitle>{{ 'NAV.LIVE_STATUS' | translate }}</span>
+      </a>
+      
+      <mat-divider></mat-divider>
+      
+      <div class="nav-footer">
+        <div class="status-indicator" [class.online]="isOnline$ | async" [class.offline]="!(isOnline$ | async)">
+          <mat-icon>{{ (isOnline$ | async) ? 'wifi' : 'wifi_off' }}</mat-icon>
+          <span>{{ (isOnline$ | async) ? ('COMMON.ONLINE' | translate) : ('COMMON.OFFLINE' | translate) }}</span>
+        </div>
+        
+        <div class="push-status" *ngIf="isPushEnabled$ | async">
+          <mat-icon>notifications_active</mat-icon>
+          <span>{{ 'COMMON.PUSH_ENABLED' | translate }}</span>
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="top-toolbar">
+      <button
+        type="button"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <span class="toolbar-title">{{ title }}</span>
+      
+      <span class="spacer"></span>
+      
+      <app-language-selector></app-language-selector>
+      
+      <button mat-icon-button routerLink="/notifications">
+        <mat-icon [matBadge]="(unreadCount$ | async) || ''" matBadgeColor="warn">
+          notifications
+        </mat-icon>
+      </button>
+    </mat-toolbar>
+    
+    <!-- Offline Banner -->
+    <div class="offline-banner" *ngIf="!(isOnline$ | async)">
+      <mat-icon>wifi_off</mat-icon>
+      {{ 'COMMON.OFFLINE_MESSAGE' | translate }}
+    </div>
+    
+    <!-- Main Content -->
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

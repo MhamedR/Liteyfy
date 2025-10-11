@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-push checks..."
+
+# Run full linting
+npm run lint
+
+# Run tests (commented out until tests are set up)
+# npm test -- --watch=false --browsers=ChromeHeadless
+
+echo "✅ Pre-push checks passed!"
+

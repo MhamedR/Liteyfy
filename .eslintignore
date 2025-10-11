@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+.angular
+
+# Coverage
+coverage
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode
+.idea
+
+# Docker
+.docker
+
+# Miscellaneous
+*.log
+

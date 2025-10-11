@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  # Production Angular app with Nginx
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: liteyfy-prod
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - liteyfy-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Backend API service (to be implemented in Step 2)
+  # backend:
+  #   image: liteyfy-backend:latest
+  #   container_name: liteyfy-backend
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - NODE_ENV=production
+  #     - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/liteyfy
+  #     - REDIS_URL=redis://redis:6379
+  #     - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
+  #     - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
+  #   networks:
+  #     - liteyfy-network
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   restart: unless-stopped
+
+  # PostgreSQL database
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: liteyfy-postgres
+  #   environment:
+  #     - POSTGRES_DB=liteyfy
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   networks:
+  #     - liteyfy-network
+  #   restart: unless-stopped
+
+  # Redis cache
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: liteyfy-redis
+  #   volumes:
+  #     - redis-data:/data
+  #   networks:
+  #     - liteyfy-network
+  #   restart: unless-stopped
+
+networks:
+  liteyfy-network:
+    driver: bridge
+
+# volumes:
+#   postgres-data:
+#   redis-data:
+

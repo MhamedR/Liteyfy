@@ -1,0 +1,25 @@
+# Development Dockerfile with hot reload
+
+FROM node:20-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli@20
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --legacy-peer-deps
+
+# Copy project files
+COPY . .
+
+# Expose port 4200 for Angular dev server
+EXPOSE 4200
+
+# Start development server with host binding
+CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "2000"]
+

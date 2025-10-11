@@ -1,0 +1,160 @@
+<div class="dashboard-container">
+  <h1 class="page-title">{{ 'DASHBOARD.TITLE' | translate }}</h1>
+  <p class="page-subtitle">{{ 'DASHBOARD.SUBTITLE' | translate }}</p>
+
+  <!-- Push Notification Setup Card -->
+  <mat-card class="setup-card" *ngIf="!isPushEnabled()">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>notifications_active</mat-icon>
+      <mat-card-title>{{ 'DASHBOARD.ENABLE_NOTIFICATIONS.TITLE' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'DASHBOARD.ENABLE_NOTIFICATIONS.SUBTITLE' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{ 'DASHBOARD.ENABLE_NOTIFICATIONS.DESCRIPTION' | translate }}
+      </p>
+      <p class="permission-status" [class.granted]="getPermissionStatus() === 'granted'"
+         [class.denied]="getPermissionStatus() === 'denied'">
+        <strong>{{ 'DASHBOARD.ENABLE_NOTIFICATIONS.PERMISSION_STATUS' | translate }}:</strong> {{ getPermissionStatus() }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary"
+              (click)="enableNotifications()"
+              [disabled]="isLoading() || getPermissionStatus() === 'denied'">
+        <mat-icon>notifications</mat-icon>
+        {{ isLoading() ? ('DASHBOARD.ENABLE_NOTIFICATIONS.BUTTON_LOADING' | translate) : ('DASHBOARD.ENABLE_NOTIFICATIONS.BUTTON' | translate) }}
+      </button>
+      <mat-spinner diameter="24" *ngIf="isLoading()"></mat-spinner>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Statistics Grid -->
+  <div class="stats-grid">
+    <!-- Active Subscriptions -->
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon" [style.background-color]="'rgba(63, 81, 181, 0.1)'">
+          <mat-icon [style.color]="'#3f51b5'">tune</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ getTotalSubscriptions() }}</h2>
+          <p>{{ 'DASHBOARD.STATS.SUBSCRIPTIONS' | translate }}</p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button routerLink="/subscriptions">
+          {{ 'DASHBOARD.STATS.MANAGE' | translate }}
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Unread Notifications -->
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon" [style.background-color]="'rgba(233, 30, 99, 0.1)'">
+          <mat-icon [style.color]="'#e91e63'">notifications</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ recentNotificationsCount() }}</h2>
+          <p>{{ 'DASHBOARD.STATS.NOTIFICATIONS' | translate }}</p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button routerLink="/notifications">
+          {{ 'DASHBOARD.STATS.VIEW_ALL' | translate }}
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <!-- Push Status -->
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon" [style.background-color]="isPushEnabled() ? 'rgba(76, 175, 80, 0.1)' : 'rgba(158, 158, 158, 0.1)'">
+          <mat-icon [style.color]="isPushEnabled() ? '#4caf50' : '#9e9e9e'">
+            {{ isPushEnabled() ? 'check_circle' : 'cancel' }}
+          </mat-icon>
+        </div>
+        <div class="stat-info">
+          <h2>{{ isPushEnabled() ? ('DASHBOARD.STATS.ACTIVE' | translate) : ('DASHBOARD.STATS.INACTIVE' | translate) }}</h2>
+          <p>{{ 'DASHBOARD.STATS.PUSH_STATUS' | translate }}</p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="testNotification()" [disabled]="!isPushEnabled()">
+          {{ 'DASHBOARD.STATS.TEST' | translate }}
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions" *ngIf="isPushEnabled()">
+    <h2>{{ 'DASHBOARD.QUICK_ACTIONS.TITLE' | translate }}</h2>
+    <div class="action-cards">
+      <mat-card class="action-card" routerLink="/subscriptions/trains">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>train</mat-icon>
+          <mat-card-title>{{ 'DASHBOARD.QUICK_ACTIONS.TRAIN_LINES' | translate }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ getEnabledCount(preferences()?.trainLines) }} {{ 'DASHBOARD.QUICK_ACTIONS.SUBSCRIBED' | translate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="action-card" routerLink="/subscriptions/weather">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>wb_sunny</mat-icon>
+          <mat-card-title>{{ 'DASHBOARD.QUICK_ACTIONS.WEATHER_ALERTS' | translate }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ getEnabledCount(preferences()?.weatherRegions) }} {{ 'DASHBOARD.QUICK_ACTIONS.REGIONS' | translate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="action-card" routerLink="/subscriptions/stib">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>directions_bus</mat-icon>
+          <mat-card-title>{{ 'DASHBOARD.QUICK_ACTIONS.STIB_LINES' | translate }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ getEnabledCount(preferences()?.stibLines) }} {{ 'DASHBOARD.QUICK_ACTIONS.SUBSCRIBED' | translate }}
+          </mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="action-card" routerLink="/live-status">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>live_tv</mat-icon>
+          <mat-card-title>{{ 'DASHBOARD.QUICK_ACTIONS.LIVE_STATUS' | translate }}</mat-card-title>
+          <mat-card-subtitle>{{ 'DASHBOARD.QUICK_ACTIONS.REAL_TIME' | translate }}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Info Section -->
+  <mat-card class="info-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>info</mat-icon>
+      <mat-card-title>{{ 'DASHBOARD.ABOUT.TITLE' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{ 'DASHBOARD.ABOUT.DESCRIPTION' | translate }}
+      </p>
+      <mat-chip-set>
+        <mat-chip>🚆 {{ 'DASHBOARD.ABOUT.TRAIN_DELAYS' | translate }}</mat-chip>
+        <mat-chip>🚇 {{ 'DASHBOARD.ABOUT.STIB_DISRUPTIONS' | translate }}</mat-chip>
+        <mat-chip>🌦️ {{ 'DASHBOARD.ABOUT.WEATHER_ALERTS' | translate }}</mat-chip>
+        <mat-chip>📍 {{ 'DASHBOARD.ABOUT.STATION_UPDATES' | translate }}</mat-chip>
+      </mat-chip-set>
+      <p class="mt-2">
+        {{ 'DASHBOARD.ABOUT.FOOTER' | translate }}
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+

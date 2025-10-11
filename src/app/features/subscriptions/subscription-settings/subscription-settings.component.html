@@ -1,0 +1,139 @@
+<div class="settings-container">
+  <div class="section-header">
+    <h2>{{ 'SUBSCRIPTIONS.SETTINGS.TITLE' | translate }}</h2>
+    <p>{{ 'SUBSCRIPTIONS.SETTINGS.SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Quiet Hours -->
+  <mat-card class="settings-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>bedtime</mat-icon>
+      <mat-card-title>{{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.TITLE' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.SUBTITLE' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="settings-section">
+        <mat-slide-toggle
+          [(ngModel)]="quietHours.enabled"
+          color="primary">
+          {{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.ENABLE' | translate }}
+        </mat-slide-toggle>
+
+        <div class="time-inputs" *ngIf="quietHours.enabled">
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.START_TIME' | translate }}</mat-label>
+            <input matInput type="time" [(ngModel)]="quietHours.startTime">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.END_TIME' | translate }}</mat-label>
+            <input matInput type="time" [(ngModel)]="quietHours.endTime">
+          </mat-form-field>
+        </div>
+
+        <mat-slide-toggle
+          [(ngModel)]="quietHours.allowCritical"
+          [disabled]="!quietHours.enabled"
+          color="primary">
+          {{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.ALLOW_CRITICAL' | translate }}
+        </mat-slide-toggle>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="saveQuietHours()">
+        <mat-icon>save</mat-icon>
+        {{ 'SUBSCRIPTIONS.SETTINGS.QUIET_HOURS.SAVE' | translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Push Notification Status -->
+  <mat-card class="settings-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>notifications_active</mat-icon>
+      <mat-card-title>{{ 'SUBSCRIPTIONS.SETTINGS.PUSH.TITLE' | translate }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ 'SUBSCRIPTIONS.SETTINGS.PUSH.STATUS' | translate }}: <span [class.enabled]="isPushEnabled()" [class.disabled]="!isPushEnabled()">
+          {{ isPushEnabled() ? ('SUBSCRIPTIONS.SETTINGS.PUSH.ENABLED' | translate) : ('SUBSCRIPTIONS.SETTINGS.PUSH.DISABLED' | translate) }}
+        </span>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p *ngIf="isPushEnabled()">
+        {{ 'SUBSCRIPTIONS.SETTINGS.PUSH.DESCRIPTION_ENABLED' | translate }}
+      </p>
+      <p *ngIf="!isPushEnabled()">
+        {{ 'SUBSCRIPTIONS.SETTINGS.PUSH.DESCRIPTION_DISABLED' | translate }}
+      </p>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="isPushEnabled()">
+      <button mat-button color="warn" (click)="disablePushNotifications()">
+        <mat-icon>notifications_off</mat-icon>
+        {{ 'SUBSCRIPTIONS.SETTINGS.PUSH.DISABLE' | translate }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- Storage Management -->
+  <mat-card class="settings-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>storage</mat-icon>
+      <mat-card-title>{{ 'SUBSCRIPTIONS.SETTINGS.STORAGE.TITLE' | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ 'SUBSCRIPTIONS.SETTINGS.STORAGE.SUBTITLE' | translate }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="storage-info">
+        <div class="info-row">
+          <span class="label">{{ 'SUBSCRIPTIONS.SETTINGS.STORAGE.DATABASE_SIZE' | translate }}:</span>
+          <span class="value">{{ formatBytes(databaseSize()) }}</span>
+        </div>
+      </div>
+
+      <div class="storage-actions">
+        <button mat-stroked-button (click)="clearCache()">
+          <mat-icon>cleaning_services</mat-icon>
+          {{ 'SUBSCRIPTIONS.SETTINGS.STORAGE.CLEAR_CACHE' | translate }}
+        </button>
+
+        <button mat-stroked-button color="warn" (click)="clearAllData()">
+          <mat-icon>delete_forever</mat-icon>
+          {{ 'SUBSCRIPTIONS.SETTINGS.STORAGE.CLEAR_ALL' | translate }}
+        </button>
+      </div>
+
+      <div class="warning-text">
+        <mat-icon>warning</mat-icon>
+        <span>{{ 'SUBSCRIPTIONS.SETTINGS.STORAGE.WARNING' | translate }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- About -->
+  <mat-card class="settings-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>info</mat-icon>
+      <mat-card-title>{{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.TITLE' | translate }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="about-info">
+        <p><strong>{{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.VERSION' | translate }}:</strong> 1.0.0</p>
+        <p><strong>{{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.DATA_SOURCES' | translate }}:</strong></p>
+        <ul>
+          <li>{{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.WEATHER' | translate }}</li>
+          <li>{{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.TRAINS' | translate }}</li>
+          <li>{{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.STIB' | translate }}</li>
+        </ul>
+        <p class="mt-2">
+          {{ 'SUBSCRIPTIONS.SETTINGS.ABOUT.DESCRIPTION' | translate }}
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

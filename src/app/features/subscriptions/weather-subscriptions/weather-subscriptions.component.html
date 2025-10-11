@@ -1,0 +1,71 @@
+<div class="weather-subscriptions">
+  <div class="section-header">
+    <h2>{{ 'SUBSCRIPTIONS.WEATHER.TITLE' | translate }}</h2>
+    <p>{{ 'SUBSCRIPTIONS.WEATHER.SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Current Subscriptions -->
+  <div class="subscriptions-list" *ngIf="weatherRegions().length > 0">
+    <mat-card *ngFor="let region of weatherRegions()" class="subscription-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>wb_sunny</mat-icon>
+        <mat-card-title>{{ region.regionName }}</mat-card-title>
+        <mat-card-subtitle>{{ region.alertTypes.length }} {{ 'SUBSCRIPTIONS.WEATHER.ALERT_TYPES' | translate }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="alert-types">
+          <h4>{{ 'SUBSCRIPTIONS.WEATHER.ALERT_TYPES' | translate }}:</h4>
+          <mat-chip-set>
+            <mat-chip
+              *ngFor="let alertType of alertTypes"
+              [class.selected]="isAlertTypeEnabled(region, alertType.value)"
+              (click)="toggleAlertType(region, alertType.value)">
+              <mat-icon>{{ alertType.icon }}</mat-icon>
+              {{ alertType.label }}
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="warn" (click)="removeRegion(region.regionId)">
+          <mat-icon>delete</mat-icon>
+          {{ 'SUBSCRIPTIONS.WEATHER.REMOVE' | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="weatherRegions().length === 0">
+    <mat-icon>wb_sunny</mat-icon>
+    <h3>{{ 'SUBSCRIPTIONS.WEATHER.EMPTY.TITLE' | translate }}</h3>
+    <p>{{ 'SUBSCRIPTIONS.WEATHER.EMPTY.SUBTITLE' | translate }}</p>
+  </div>
+
+  <!-- Available Regions -->
+  <div class="available-regions">
+    <h2>{{ 'SUBSCRIPTIONS.WEATHER.BELGIAN_REGIONS' | translate }}</h2>
+    <p>{{ 'SUBSCRIPTIONS.WEATHER.SUBTITLE' | translate }}</p>
+
+    <div class="regions-grid">
+      <mat-card *ngFor="let region of availableRegions" class="region-card">
+        <mat-card-header>
+          <mat-icon mat-card-avatar>location_on</mat-icon>
+          <mat-card-title>{{ region.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            [color]="isRegionSubscribed(region.id) ? 'accent' : 'primary'"
+            [disabled]="isRegionSubscribed(region.id)"
+            (click)="addRegion(region)">
+            <mat-icon>{{ isRegionSubscribed(region.id) ? 'check' : 'add' }}</mat-icon>
+            {{ isRegionSubscribed(region.id) ? ('SUBSCRIPTIONS.WEATHER.SUBSCRIBED' | translate) : ('SUBSCRIPTIONS.WEATHER.SUBSCRIBE' | translate) }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
