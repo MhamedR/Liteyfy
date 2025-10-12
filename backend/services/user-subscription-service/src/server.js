@@ -1,10 +1,11 @@
-import 'dotenv/config';
+// Note: dotenv is not needed when using Docker environment variables
+// import 'dotenv/config';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
 import { graphqlHTTP } from 'express-graphql';
-import { database, redis, createLogger } from '../../../shared/index.js';
+import { DatabaseConnection, RedisConnection, createLogger } from '../../../shared/index.js';
 import subscriptionRoutes from './routes/subscriptions.js';
 import gdprRoutes from './routes/gdpr.js';
 import { schema, root } from './graphql/schema.js';
@@ -75,8 +76,12 @@ const shutdown = async (signal) => {
   logger.info(`${signal} received. Shutting down gracefully...`);
 
   try {
-    await database.disconnect();
-    await redis.disconnect();
+    if (app.locals.database) {
+      await app.locals.database.disconnect();
+    }
+    if (app.locals.redis) {
+      await app.locals.redis.disconnect();
+    }
     logger.info('All connections closed. Exiting...');
     process.exit(0);
   } catch (error) {
@@ -103,9 +108,26 @@ cron.schedule('0 2 * * *', async () => {
 // Start server
 const startServer = async () => {
   try {
+    // Log environment variables for debugging
+    logger.info('Environment variables:', {
+      MONGO_URI: process.env.MONGO_URI || 'NOT SET',
+      REDIS_URL: process.env.REDIS_URL || 'NOT SET',
+      KAFKA_BROKERS: process.env.KAFKA_BROKERS || 'NOT SET'
+    });
+
+    // Create database and redis instances with environment variables
+    const database = new DatabaseConnection(process.env.MONGO_URI);
+    const redis = new RedisConnection(process.env.REDIS_URL);
+
+    logger.info('Database URI being used:', database.uri);
+
     // Connect to databases
     await database.connect();
     await redis.connect();
+
+    // Store instances for shutdown
+    app.locals.database = database;
+    app.locals.redis = redis;
 
     // Start listening
     app.listen(PORT, () => {

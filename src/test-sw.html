@@ -115,13 +115,13 @@
         <div class="emoji">🔔</div>
         <h1>Enable Push Notifications</h1>
         <p>Get real-time alerts for train delays and weather in Belgium</p>
-        
+
         <div id="status"></div>
-        
+
         <button id="enableBtn" onclick="enableNotifications()">
             🚀 Enable Notifications
         </button>
-        
+
         <div class="back-link">
             <a href="/dashboard">← Back to Dashboard</a>
         </div>
@@ -130,7 +130,7 @@
     <script>
         const VAPID_KEY = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib27SDbQjfTbkADt98CPWV3_oHlv8IMh-w4QyHqm9-CYdqMQkQ9BvQw5PiI';
         const API_URL = 'http://localhost:3001/api';
-        
+
         function showStatus(message, type) {
             const status = document.getElementById('status');
             status.className = `status ${type} show`;
@@ -227,7 +227,7 @@
                 `, 'success');
 
                 btn.textContent = '✅ Enabled!';
-                
+
                 setTimeout(() => {
                     window.location.href = '/subscriptions';
                 }, 3000);
@@ -235,7 +235,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 let errorMsg = '❌ Failed to enable notifications<br><br>';
-                
+
                 if (error.message.includes('denied')) {
                     errorMsg += '<strong>Permission was denied.</strong><br>Please click the 🔒 icon in your address bar and allow notifications.';
                 } else if (error.message.includes('not supported')) {
@@ -243,7 +243,7 @@
                 } else {
                     errorMsg += `<strong>Error:</strong> ${error.message}`;
                 }
-                
+
                 showStatus(errorMsg, 'error');
                 btn.textContent = '🔔 Try Again';
                 btn.disabled = false;
@@ -260,11 +260,13 @@
                         if (registration) {
                             const subscription = await registration.pushManager.getSubscription();
                             if (subscription) {
-                                showStatus('✅ You are already subscribed to notifications!', 'success');
-                                document.getElementById('enableBtn').textContent = '✅ Already Enabled';
-                                setTimeout(() => {
-                                    window.location.href = '/dashboard';
-                                }, 2000);
+                                showStatus(`
+                                    <div class="step">
+                                        <div class="step-title">ℹ️ Browser Subscription Found</div>
+                                        Your browser already has a push subscription. Click below to re-enable and sync with backend.
+                                    </div>
+                                `, 'info');
+                                document.getElementById('enableBtn').textContent = '🔄 Re-Enable & Sync';
                             }
                         }
                     }

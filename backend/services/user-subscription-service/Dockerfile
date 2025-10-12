@@ -1,23 +1,24 @@
 FROM node:20-alpine
 
-WORKDIR /app
+# Set up the directory structure to match local development
+WORKDIR /app/backend
 
-# Copy shared package and install its dependencies
+# Copy and install shared dependencies
 COPY ./shared/package.json ./shared/
-WORKDIR /app/shared
+WORKDIR /app/backend/shared
 RUN npm install --production
 
-# Copy service package and install its dependencies
-WORKDIR /app/service
+# Copy shared source code
+WORKDIR /app/backend
+COPY ./shared ./shared
+
+# Copy and install service dependencies
+WORKDIR /app/backend/services/user-subscription-service
 COPY ./services/user-subscription-service/package*.json ./
 RUN npm install --production --legacy-peer-deps
 
-# Copy service code
-WORKDIR /app/service
+# Copy service source code
 COPY ./services/user-subscription-service/src ./src
-
-# Copy shared code into the service for proper imports
-COPY ./shared ../shared
 
 EXPOSE 3001
 

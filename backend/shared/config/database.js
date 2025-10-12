@@ -8,7 +8,7 @@ const logger = createLogger('database');
  */
 export class DatabaseConnection {
   constructor(uri, options = {}) {
-    this.uri = uri || process.env.MONGODB_URI || 'mongodb://localhost:27017/liteyfy';
+    this.uri = uri || process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/liteyfy';
     this.options = {
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 5000,
