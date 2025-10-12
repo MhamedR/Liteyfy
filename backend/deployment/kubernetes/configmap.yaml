@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: liteyfy-config
+  namespace: liteyfy
+data:
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+  MONGODB_URI: "mongodb://mongodb:27017/liteyfy"
+  REDIS_URL: "redis://redis:6379"
+  KAFKA_BROKERS: "kafka:9092"
+  VAPID_SUBJECT: "mailto:admin@liteyfy.be"
+

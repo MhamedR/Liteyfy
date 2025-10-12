@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notification Test - Liteyfy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #c8e6c9; color: #2e7d32; }
+        .error { background: #ffcdd2; color: #c62828; }
+        .info { background: #bbdefb; color: #1565c0; }
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚆 Liteyfy - Push Notification Test</h1>
+
+    <div class="card">
+        <h2>Step 1: Check Browser Support</h2>
+        <div id="support-status"></div>
+    </div>
+
+    <div class="card">
+        <h2>Step 2: Register Service Worker</h2>
+        <button onclick="registerServiceWorker()">Register Service Worker</button>
+        <div id="sw-status"></div>
+    </div>
+
+    <div class="card">
+        <h2>Step 3: Request Permission</h2>
+        <button onclick="requestPermission()">Request Notification Permission</button>
+        <div id="permission-status"></div>
+    </div>
+
+    <div class="card">
+        <h2>Step 4: Subscribe to Push</h2>
+        <button onclick="subscribeToPush()">Subscribe to Push Notifications</button>
+        <div id="subscription-status"></div>
+    </div>
+
+    <div class="card">
+        <h2>Step 5: Save to Backend</h2>
+        <button onclick="saveSubscription()">Save Subscription to Backend</button>
+        <div id="backend-status"></div>
+    </div>
+
+    <div class="card">
+        <h2>Test Notification</h2>
+        <button onclick="testNotification()">Send Test Notification</button>
+    </div>
+
+    <script>
+        const VAPID_PUBLIC_KEY = 'BEl62iUYgUivxIkv69yViEuiBIa-Ib27SDbQjfTbkADt98CPWV3_oHlv8IMh-w4QyHqm9-CYdqMQkQ9BvQw5PiI';
+        const API_URL = 'http://localhost:3001/api';
+
+        let registration = null;
+        let pushSubscription = null;
+
+        // Check browser support
+        function checkSupport() {
+            const support = {
+                serviceWorker: 'serviceWorker' in navigator,
+                pushManager: 'PushManager' in window,
+                notification: 'Notification' in window
+            };
+
+            const html = `
+                <div class="status ${Object.values(support).every(v => v) ? 'success' : 'error'}">
+                    <strong>Service Worker:</strong> ${support.serviceWorker ? '✓ Supported' : '✗ Not Supported'}<br>
+                    <strong>Push Manager:</strong> ${support.pushManager ? '✓ Supported' : '✗ Not Supported'}<br>
+                    <strong>Notifications:</strong> ${support.notification ? '✓ Supported' : '✗ Not Supported'}
+                </div>
+            `;
+            document.getElementById('support-status').innerHTML = html;
+        }
+
+        async function registerServiceWorker() {
+            try {
+                registration = await navigator.serviceWorker.register('/ngsw-worker.js');
+                await navigator.serviceWorker.ready;
+
+                document.getElementById('sw-status').innerHTML = `
+                    <div class="status success">
+                        ✓ Service Worker registered successfully!
+                        <pre>${JSON.stringify({scope: registration.scope, active: !!registration.active}, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('sw-status').innerHTML = `
+                    <div class="status error">
+                        ✗ Service Worker registration failed: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function requestPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+
+                document.getElementById('permission-status').innerHTML = `
+                    <div class="status ${permission === 'granted' ? 'success' : 'error'}">
+                        <strong>Permission:</strong> ${permission}
+                        ${permission === 'granted' ? '✓ You can receive notifications!' : '✗ Permission denied'}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('permission-status').innerHTML = `
+                    <div class="status error">✗ Error: ${error.message}</div>
+                `;
+            }
+        }
+
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/\-/g, '+')
+                .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
+            }
+            return outputArray;
+        }
+
+        async function subscribeToPush() {
+            try {
+                if (!registration) {
+                    throw new Error('Service Worker not registered. Please register it first.');
+                }
+
+                const applicationServerKey = urlBase64ToUint8Array(VAPID_PUBLIC_KEY);
+
+                pushSubscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: applicationServerKey
+                });
+
+                document.getElementById('subscription-status').innerHTML = `
+                    <div class="status success">
+                        ✓ Successfully subscribed to push notifications!
+                        <pre>${JSON.stringify(pushSubscription.toJSON(), null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('subscription-status').innerHTML = `
+                    <div class="status error">
+                        ✗ Subscription failed: ${error.message}
+                        <pre>${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        async function saveSubscription() {
+            if (!pushSubscription) {
+                document.getElementById('backend-status').innerHTML = `
+                    <div class="status error">✗ Please subscribe to push first!</div>
+                `;
+                return;
+            }
+
+            try {
+                const subscriptionJson = pushSubscription.toJSON();
+                const payload = {
+                    endpoint: pushSubscription.endpoint,
+                    p256dh: subscriptionJson.keys.p256dh,
+                    auth: subscriptionJson.keys.auth,
+                    trainLines: [],
+                    stations: [],
+                    weatherRegions: [],
+                    stibLines: []
+                };
+
+                console.log('Saving to backend:', payload);
+
+                const response = await fetch(`${API_URL}/subscriptions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const data = await response.json();
+
+                document.getElementById('backend-status').innerHTML = `
+                    <div class="status success">
+                        ✓ Subscription saved to backend successfully!
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('backend-status').innerHTML = `
+                    <div class="status error">
+                        ✗ Failed to save to backend: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testNotification() {
+            if (Notification.permission === 'granted') {
+                new Notification('Liteyfy Test', {
+                    body: 'This is a test notification from Liteyfy!',
+                    icon: '/assets/icons/icon-192x192.png',
+                    badge: '/assets/icons/icon-72x72.png',
+                    tag: 'test-notification'
+                });
+            } else {
+                alert('Please grant notification permission first!');
+            }
+        }
+
+        // Auto-check support on load
+        window.onload = () => {
+            checkSupport();
+            // Check current permission
+            if ('Notification' in window) {
+                document.getElementById('permission-status').innerHTML = `
+                    <div class="status info">
+                        <strong>Current Permission:</strong> ${Notification.permission}
+                    </div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>
+

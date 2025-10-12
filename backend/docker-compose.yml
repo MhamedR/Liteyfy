@@ -1,0 +1,151 @@
+version: '3.8'
+
+services:
+  # Infrastructure Services
+  mongodb:
+    image: mongo:7
+    container_name: liteyfy-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: liteyfy
+      MONGO_INITDB_ROOT_PASSWORD: liteyfy_secret
+      MONGO_INITDB_DATABASE: liteyfy
+    networks:
+      - liteyfy-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: liteyfy-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - liteyfy-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: liteyfy-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - liteyfy-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: liteyfy-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - liteyfy-network
+
+  # Microservices
+  user-subscription-service:
+    build:
+      context: .
+      dockerfile: ./services/user-subscription-service/Dockerfile
+    container_name: liteyfy-user-subscription-service
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      NODE_ENV: production
+      SERVICE_NAME: user-subscription-service
+      MONGO_URI: mongodb://liteyfy:liteyfy_secret@mongodb:27017/liteyfy?authSource=admin
+      REDIS_URL: redis://redis:6379
+      KAFKA_BROKERS: kafka:9092
+    depends_on:
+      - mongodb
+      - redis
+      - kafka
+    networks:
+      - liteyfy-network
+
+  event-ingestion-service:
+    build:
+      context: .
+      dockerfile: ./services/event-ingestion-service/Dockerfile
+    container_name: liteyfy-event-ingestion-service
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      NODE_ENV: production
+      SERVICE_NAME: event-ingestion-service
+      MONGO_URI: mongodb://liteyfy:liteyfy_secret@mongodb:27017/liteyfy?authSource=admin
+      KAFKA_BROKERS: kafka:9092
+    depends_on:
+      - mongodb
+      - kafka
+    networks:
+      - liteyfy-network
+
+  notification-delivery-service:
+    build:
+      context: .
+      dockerfile: ./services/notification-delivery-service/Dockerfile
+    container_name: liteyfy-notification-delivery-service
+    restart: always
+    ports:
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      NODE_ENV: production
+      SERVICE_NAME: notification-delivery-service
+      MONGO_URI: mongodb://liteyfy:liteyfy_secret@mongodb:27017/liteyfy?authSource=admin
+      KAFKA_BROKERS: kafka:9092
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
+      VAPID_SUBJECT: mailto:admin@liteyfy.be
+    depends_on:
+      - mongodb
+      - kafka
+    networks:
+      - liteyfy-network
+
+  analytics-service:
+    build:
+      context: .
+      dockerfile: ./services/analytics-service/Dockerfile
+    container_name: liteyfy-analytics-service
+    restart: always
+    ports:
+      - "3004:3004"
+    environment:
+      PORT: 3004
+      NODE_ENV: production
+      SERVICE_NAME: analytics-service
+      MONGO_URI: mongodb://liteyfy:liteyfy_secret@mongodb:27017/liteyfy?authSource=admin
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - liteyfy-network
+
+networks:
+  liteyfy-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  redis_data:
+

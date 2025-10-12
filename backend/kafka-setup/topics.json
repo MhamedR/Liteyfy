@@ -1,0 +1,63 @@
+{
+  "topics": [
+    {
+      "name": "train-events",
+      "partitions": 3,
+      "replicationFactor": 1,
+      "config": {
+        "retention.ms": "604800000",
+        "cleanup.policy": "delete",
+        "compression.type": "snappy",
+        "max.message.bytes": "1048576"
+      },
+      "description": "Train delays, cancellations, and platform changes from iRail API"
+    },
+    {
+      "name": "weather-events",
+      "partitions": 2,
+      "replicationFactor": 1,
+      "config": {
+        "retention.ms": "604800000",
+        "cleanup.policy": "delete",
+        "compression.type": "snappy",
+        "max.message.bytes": "1048576"
+      },
+      "description": "Weather alerts and warnings from KMI/IRM API"
+    },
+    {
+      "name": "stib-events",
+      "partitions": 3,
+      "replicationFactor": 1,
+      "config": {
+        "retention.ms": "604800000",
+        "cleanup.policy": "delete",
+        "compression.type": "snappy",
+        "max.message.bytes": "1048576"
+      },
+      "description": "STIB/MIVB disruptions and delays from Brussels transport API"
+    },
+    {
+      "name": "notification-dlq",
+      "partitions": 1,
+      "replicationFactor": 1,
+      "config": {
+        "retention.ms": "2592000000",
+        "cleanup.policy": "delete",
+        "compression.type": "snappy"
+      },
+      "description": "Dead Letter Queue for failed notifications (30 days retention)"
+    },
+    {
+      "name": "analytics-events",
+      "partitions": 2,
+      "replicationFactor": 1,
+      "config": {
+        "retention.ms": "2592000000",
+        "cleanup.policy": "delete",
+        "compression.type": "snappy"
+      },
+      "description": "Analytics and metrics events for tracking"
+    }
+  ]
+}
+

@@ -72,21 +72,8 @@ export class DashboardComponent implements OnInit {
   }
 
   enableNotifications(): void {
-    this.isLoading.set(true);
-    this.pushNotificationService.requestSubscription().pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe({
-      next: (subscription) => {
-        console.log('Push subscription successful:', subscription);
-        this.subscriptionManager.initializeDefaultPreferences();
-        this.isLoading.set(false);
-      },
-      error: (error) => {
-        console.error('Push subscription failed:', error);
-        this.isLoading.set(false);
-        alert('Failed to enable notifications. Please check your browser settings.');
-      }
-    });
+    // Redirect to standalone enabler page that works in dev mode
+    window.location.href = '/test-sw.html';
   }
 
   testNotification(): void {

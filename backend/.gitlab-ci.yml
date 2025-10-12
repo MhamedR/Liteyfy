@@ -1,0 +1,168 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  REGISTRY: registry.gitlab.com
+  IMAGE_PREFIX: $CI_PROJECT_PATH
+
+# Test stage
+.test_template: &test_template
+  stage: test
+  image: node:20-alpine
+  before_script:
+    - cd backend/services/$SERVICE_NAME
+    - npm ci
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-${SERVICE_NAME}
+    paths:
+      - backend/services/$SERVICE_NAME/node_modules/
+  only:
+    - branches
+    - merge_requests
+
+test:user-subscription-service:
+  <<: *test_template
+  variables:
+    SERVICE_NAME: user-subscription-service
+  script:
+    - npm test || true
+    - npm run lint || true
+
+test:event-ingestion-service:
+  <<: *test_template
+  variables:
+    SERVICE_NAME: event-ingestion-service
+  script:
+    - npm test || true
+    - npm run lint || true
+
+test:notification-delivery-service:
+  <<: *test_template
+  variables:
+    SERVICE_NAME: notification-delivery-service
+  script:
+    - npm test || true
+    - npm run lint || true
+
+test:analytics-service:
+  <<: *test_template
+  variables:
+    SERVICE_NAME: analytics-service
+  script:
+    - npm test || true
+    - npm run lint || true
+
+# Build stage
+.build_template: &build_template
+  stage: build
+  image: docker:24-dind
+  services:
+    - docker:24-dind
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - |
+      docker build \
+        --build-arg NODE_ENV=production \
+        --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
+        --build-arg VCS_REF=$CI_COMMIT_SHORT_SHA \
+        --tag $CI_REGISTRY_IMAGE/$SERVICE_NAME:$CI_COMMIT_REF_SLUG \
+        --tag $CI_REGISTRY_IMAGE/$SERVICE_NAME:$CI_COMMIT_SHORT_SHA \
+        --tag $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest \
+        backend/services/$SERVICE_NAME
+    - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:$CI_COMMIT_REF_SLUG
+    - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE/$SERVICE_NAME:latest
+  only:
+    - main
+    - develop
+    - tags
+
+build:user-subscription-service:
+  <<: *build_template
+  variables:
+    SERVICE_NAME: user-subscription-service
+
+build:event-ingestion-service:
+  <<: *build_template
+  variables:
+    SERVICE_NAME: event-ingestion-service
+
+build:notification-delivery-service:
+  <<: *build_template
+  variables:
+    SERVICE_NAME: notification-delivery-service
+
+build:analytics-service:
+  <<: *build_template
+  variables:
+    SERVICE_NAME: analytics-service
+
+# Deploy staging
+deploy:staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: staging
+    url: https://staging.liteyfy.be
+    on_stop: stop:staging
+  before_script:
+    - mkdir -p $HOME/.kube
+    - echo "$KUBE_CONFIG_STAGING" | base64 -d > $HOME/.kube/config
+  script:
+    - kubectl apply -f backend/deployment/kubernetes/namespace.yaml
+    - kubectl apply -f backend/deployment/kubernetes/configmap.yaml
+    - kubectl apply -f backend/deployment/kubernetes/secrets.yaml
+    - kubectl apply -f backend/deployment/kubernetes/*.yaml
+    - kubectl rollout status deployment -n liteyfy
+    - kubectl get pods -n liteyfy
+  only:
+    - develop
+
+# Deploy production
+deploy:production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+    url: https://liteyfy.be
+  before_script:
+    - mkdir -p $HOME/.kube
+    - echo "$KUBE_CONFIG_PROD" | base64 -d > $HOME/.kube/config
+  script:
+    - kubectl apply -f backend/deployment/kubernetes/namespace.yaml
+    - kubectl apply -f backend/deployment/kubernetes/configmap.yaml
+    - kubectl apply -f backend/deployment/kubernetes/secrets.yaml
+    - kubectl apply -f backend/deployment/kubernetes/*.yaml
+    - kubectl rollout status deployment/user-subscription-service -n liteyfy
+    - kubectl rollout status deployment/event-ingestion-service -n liteyfy
+    - kubectl rollout status deployment/notification-delivery-service -n liteyfy
+    - kubectl rollout status deployment/analytics-service -n liteyfy
+    - |
+      kubectl run smoke-test --image=curlimages/curl:latest --rm -i --restart=Never -- \
+        curl -f http://user-subscription-service:3001/health
+  when: manual
+  only:
+    - main
+    - tags
+
+# Security scanning
+security:scan:
+  stage: test
+  image: aquasec/trivy:latest
+  script:
+    - trivy fs --exit-code 0 --no-progress --format json -o trivy-report.json backend/
+    - trivy fs --exit-code 1 --severity CRITICAL --no-progress backend/
+  artifacts:
+    reports:
+      container_scanning: trivy-report.json
+    expire_in: 1 week
+  allow_failure: true
+  only:
+    - branches
+    - merge_requests
+

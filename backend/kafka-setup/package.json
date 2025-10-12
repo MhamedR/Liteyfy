@@ -1,0 +1,15 @@
+{
+  "name": "@liteyfy/kafka-setup",
+  "version": "1.0.0",
+  "description": "Kafka topic setup and configuration",
+  "type": "module",
+  "scripts": {
+    "setup": "node setup-topics.js",
+    "verify": "node verify-topics.js"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "dotenv": "^16.4.0"
+  }
+}
+

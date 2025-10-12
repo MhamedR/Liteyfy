@@ -1,0 +1,27 @@
+{
+  "name": "@liteyfy/shared",
+  "version": "1.0.0",
+  "description": "Shared utilities and models for Liteyfy microservices",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": ["liteyfy", "shared", "utilities"],
+  "author": "Liteyfy Team",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "winston": "^3.11.0",
+    "joi": "^17.11.0",
+    "mongoose": "^8.1.0",
+    "redis": "^4.6.12",
+    "kafkajs": "^2.2.4",
+    "prom-client": "^15.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/node": "^20.11.0"
+  }
+}
+

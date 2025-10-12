@@ -1,0 +1,23 @@
+{
+  "name": "@liteyfy/notification-delivery-service",
+  "version": "1.0.0",
+  "description": "Notification Delivery Service - Sends push notifications",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "web-push": "^3.6.6",
+    "dotenv": "^16.4.0",
+    "mongoose": "^8.1.0",
+    "kafkajs": "^2.2.4",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+
